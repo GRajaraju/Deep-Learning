@@ -15,6 +15,7 @@ class Autoencoder:
         # If you are fine giving different names to weights and biases for encoding and decoding, then you can
         # skip 'with' statement and simply create variables as encode_weights, encode_baises, decode_weights,
         # decode_baises.
+        # Note that, with proper name scope the nodes get well orgranized.
         with tf.name_scope('encode'):
             weights = tf.Variable(tf.random_normal([input_dim,hidden_dim],
                                                   dtype=tf.float32),name = 'weights')
