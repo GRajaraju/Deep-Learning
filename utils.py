@@ -20,3 +20,10 @@ def one_hot_encoding_char(str_user):
     return sample_text_onehot_encode
   
   
+# Helper functions
+def sigmoid(x):
+    return 1/(1+np.exp(-x))
+
+def sigmoid_derivative(S):
+    return S * (1 - S)
+
