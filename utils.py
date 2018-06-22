@@ -27,3 +27,9 @@ def sigmoid(x):
 def sigmoid_derivative(S):
     return S * (1 - S)
 
+def clipping_nums(num,thresh):
+    if num < -thresh:
+        num = -thresh
+    elif num > thresh:
+        num = thresh
+    return num
