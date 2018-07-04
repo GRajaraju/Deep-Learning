@@ -33,3 +33,19 @@ def clipping_nums(num,thresh):
     elif num > thresh:
         num = thresh
     return num
+
+def decimal_to_binary(number):
+    r = 0
+    q = 0
+    bin_num = []
+    if number == 1:
+        return 1
+    else:
+        while q != 1:
+            q = number // 2
+            r = number % 2
+            number = q
+            bin_num.append(r)
+            if q == 1:
+                bin_num.append(q)
+        return bin_num[::-1]
