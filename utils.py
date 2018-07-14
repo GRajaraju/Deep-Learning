@@ -14,7 +14,7 @@ def one_hot_encoding_char(str_user):
     sample_text_index = [characters_index[x] for x in str_user]
     sample_text_onehot_encode = []
     for value in sample_text_index:
-        char = [0 for _ in range(len(complete_characters))]
+        char = np.zeros((len(complete_characters),1))
         char[value] = 1
         sample_text_onehot_encode.append(char)
     return sample_text_onehot_encode
