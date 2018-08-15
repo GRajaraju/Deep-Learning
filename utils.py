@@ -1,4 +1,8 @@
 
+import numpy as np
+import re
+
+
 def hot_encode(x):
     new_number = x
     one_hot_number = list()
@@ -49,3 +53,5 @@ def decimal_to_binary(number):
             if q == 1:
                 bin_num.append(q)
         return bin_num[::-1]
+
+  
