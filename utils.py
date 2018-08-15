@@ -54,4 +54,12 @@ def decimal_to_binary(number):
                 bin_num.append(q)
         return bin_num[::-1]
 
+def one_hot_encoding_words(document):
+    vocab = set(re.findall(r'\w+',document))
+    vocab = dict((w,i) for i,w in enumerate(vocab))
+    doc1_1hot = np.zeros((1,len(vocab)))
+    doc1_words = re.findall(r'\w+',doc2)
+    for i,word in enumerate(vocab):
+        if word in doc1_words:
+            doc1_1hot[:,i] = 1
   
