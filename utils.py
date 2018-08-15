@@ -60,8 +60,6 @@ def vocab_word(document):
     return vocab
 
 def one_hot_encoding_words(vocab, document):
-    vocab = set(re.findall(r'\w+',document))
-    vocab = dict((w,i) for i,w in enumerate(vocab))
     document_1hot = np.zeros((1,len(vocab)))
     document_words = re.findall(r'\w+',document)
     for i,word in enumerate(vocab):
