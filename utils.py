@@ -67,4 +67,22 @@ def one_hot_encoding_words(vocab, document):
             document_1hot[:,i] = 1
     return document_1hot
 
-  
+# Generating random words
+def password_generator(length):
+
+    l = length
+    vocab = 'abcdefghijklmnopqrstuvwxyz!@0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+    chars = list(set(vocab))
+
+    char_idx = {ch:i for i,ch in enumerate(chars)}
+    idx_char = { i:ch for i,ch in enumerate(chars)}
+
+    new_idx = np.random.choice(range(0,25),l)
+    random_word = ''
+    for i in new_idx:
+        random_word = random_word + ''.join(idx_char[i])
+
+    return random_word
+
+
