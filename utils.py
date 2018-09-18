@@ -95,4 +95,15 @@ def y_one_hot(y_labels):
         y_data.append(y_temp)
     return y_data
 
-
+# function to create training batches for X and Y
+def batch_data(x_data,y_data,batch_size):
+    i = 0
+    start = 0
+    num_batches = int(x_data.shape[0] / batch_size)
+    while i < num_batches:
+        x_batch = x_data[start:start+batch_size,:]
+        y_batch = y_data[start:start+batch_size,:]
+        start += batch_size
+        i += 1
+        yield x_batch, y_batch
+        
