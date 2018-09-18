@@ -85,4 +85,14 @@ def password_generator(length):
 
     return random_word
 
+def y_one_hot(y_labels):
+    label_size = 10
+    y_data = []
+    for i in range(len(y_labels)):
+        idx = int(y_labels[i])
+        y_temp = np.zeros((label_size))
+        y_temp[idx] = 1
+        y_data.append(y_temp)
+    return y_data
+
 
