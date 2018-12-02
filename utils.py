@@ -107,3 +107,20 @@ def batch_data(x_data,y_data,batch_size):
         i += 1
         yield x_batch, y_batch
         
+# Modifying contents of a file and write it into a new file
+import os
+
+old_file_path = "file_path\old"
+new_file_path = "file_path\new"
+file_list = os.listdir(old_file_path)
+for file in file_list:
+#     print("Working on:{}".format(file))
+    with open(os.path.join(old_file_path,file),'r') as f:
+        with open(os.path.join(new_file_path,file),'w') as f1:
+          for line in f.readlines():
+            if line[0] == '0':
+                new_line = '23' + line[1:]
+                f1.write(new_line)
+            elif line[0] == '1':
+                new_line = '24' + line[1:]
+                f1.write(new_line)
