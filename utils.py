@@ -124,3 +124,61 @@ for file in file_list:
             elif line[0] == '1':
                 new_line = '24' + line[1:]
                 f1.write(new_line)
+
+                
+# converting coco anotations json into text
+import os
+import json
+from os import listdir, getcwd
+from os.path import join
+
+classes = ["person", "thing",  "backpack", "umbrella", "handbag", "suitcase", "bottle",
+            "cup",  "bowl", "chair", "sofa", "pottedplant", "bed", "dining table",
+            "toilet", "tvmonitor", "laptop", "remote", "cell phone", "sink", "book",
+            "clock", "vase"]
+
+for i, v in enumerate(classes):
+    print("{}: {}".format(i, v))
+
+# Creating ratios as required by yolo
+
+def convert_bb(size, box):
+    dw = 1./size[0]
+    dh = 1./size[1]
+    x = box[0]*dw
+    y = box[1]*dh
+    w = box[2]*dw
+    h = box[3]*dh
+    return (x, y, w, h)
+
+def convert_annotation_to_txt():
+    imgs_to_deleted = []
+    with open('annotation.json','r') as f:
+        data = json.load(f)
+        print('hey')
+        for item in data['images']:
+            image_id = item['id']
+            file_name = item['file_name']
+            width = item['width']
+            height = item['height']
+            value = filter(lambda item1: item1['image_id'] == image_id, data['annotations'])
+
+            for item2 in value:
+                category_id = item2['category_id']
+                value1 = filter(lambda item3: item3['id'] == category_id,data['categories'])
+                name = next(value1)['name']
+                if name not in classes:
+                    imgs_to_deleted.append(file_name)
+                else:
+                    class_id = classes.index(name)
+                    print(class_id)
+                    box = item2['bbox']
+                    bb = convert_bb((width, height), box)
+                    outfile = open('%s.txt'%(file_name[:-4]), 'a+')
+                    outfile.write(str(class_id)+" "+" ".join([str(a) for a in bb]) + '\n')
+                    outfile.close()
+
+
+
+
+convert_annotation_to_txt()
