@@ -141,7 +141,6 @@ for i, v in enumerate(classes):
     print("{}: {}".format(i, v))
 
 # Creating ratios as required by yolo
-
 def convert_bb(size, box):
     dw = 1./size[0]
     dh = 1./size[1]
@@ -177,8 +176,5 @@ def convert_annotation_to_txt():
                     outfile = open('%s.txt'%(file_name[:-4]), 'a+')
                     outfile.write(str(class_id)+" "+" ".join([str(a) for a in bb]) + '\n')
                     outfile.close()
-
-
-
-
+                    
 convert_annotation_to_txt()
