@@ -238,7 +238,10 @@ plt.show()
 
 plt.plot(max_p.keys(), max_p.values(), 'b.')
 plt.show()
-----
+
+#
+#
+#
 
 # Python wrapper to run darknet object detection on multiple images.
 
