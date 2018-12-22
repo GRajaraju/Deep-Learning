@@ -176,7 +176,9 @@ def convert_annotation_to_txt():
                     outfile = open('%s.txt'%(file_name[:-4]), 'a+')
                     outfile.write(str(class_id)+" "+" ".join([str(a) for a in bb]) + '\n')
                     outfile.close()
-                    import os
+
+#helper function to extract class labels, annotations, count on each class.		
+import os
 from collections import Counter
 import matplotlib.pyplot as plt
 import csv
@@ -236,8 +238,34 @@ plt.show()
 
 plt.plot(max_p.keys(), max_p.values(), 'b.')
 plt.show()
+----
 
-convert_annotation_to_txt()
+# Python wrapper to run darknet object detection on multiple images.
+
+import darknet
+import cv2
+import os
+
+
+net = darknet.load_net(b"/your_path/darknet/cfg/yolov2.cfg", b"/your_path/darknet/yolov2.weights", 0)
+meta = darknet.load_meta(b"/your_path/darknet/cfg/coco.data")
+
+#image path
+image_path = "/your_path/darknet/data/images"
+images = os.listdir(image_path)
+
+for img in images:
+    img_path = os.path.join(image_path, img)
+    print(img_path)
+    image = cv2.imread(img_path)
+    cv2.imshow("image", image)
+    d_imgpath = os.path.join(b"/your_path/darknet/data/images", str.encode(img))
+    r = darknet.detect(net, meta, d_imgpath)
+    print(r)
+    cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
 
 
 
