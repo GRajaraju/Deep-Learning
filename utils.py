@@ -296,5 +296,30 @@ with open('labels_data_dist.txt', 'w') as f:
         #cv2.waitKey(0)
 cv2.destroyAllWindows()
 
+import os
+from collections import Counter
+import matplotlib.pyplot as plt
+
+images = []
+
+with open('labels_data_dist.txt', 'r+') as f:
+    images = [line[:-1] for line in f.readlines()]
+
+data = Counter(images)
+new_data = Counter(data.values())
+
+#plotting graph
+plt.xlabel("Persons per image")
+plt.ylabel("Number of images")
+plt.bar(new_data.keys(), new_data.values())
+plt.savefig('person_per_image.png', dpi=300)
+plt.show()
+
+
+#
+#
+#
+
+
 
 
