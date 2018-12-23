@@ -243,32 +243,58 @@ plt.show()
 #
 #
 
+
 # Python wrapper to run darknet object detection on multiple images.
 
 import darknet
 import cv2
 import os
 
+# config and image paths
+CFG = "/your/path/darknet/cfg/yolov2.cfg"
+WEIGHTS = "/your/path/darknet/yolov2_org_weights/yolov2.weights"
+META = "/your/path/darknet/cfg/coco.data"
+image_path = "/your/path/darknet/data/images"
+target_path = "/your/path/darknet/data/new_images"
 
-net = darknet.load_net(b"/your_path/darknet/cfg/yolov2.cfg", b"/your_path/darknet/yolov2.weights", 0)
-meta = darknet.load_meta(b"/your_path/darknet/cfg/coco.data")
-
-#image path
-image_path = "/your_path/darknet/data/images"
+darknet.set_gpu(0)
+net = darknet.load_net(str.encode(CFG), str.encode(WEIGHTS), 0)
+meta = darknet.load_meta(str.encode(META))
+class_label = 'person'
 images = os.listdir(image_path)
+bb = []
+img_id = 1
+with open('labels_data_dist.txt', 'w') as f:
 
-for img in images:
-    img_path = os.path.join(image_path, img)
-    print(img_path)
-    image = cv2.imread(img_path)
-    cv2.imshow("image", image)
-    d_imgpath = os.path.join(b"/your_path/darknet/data/images", str.encode(img))
-    r = darknet.detect(net, meta, d_imgpath)
-    print(r)
-    cv2.waitKey(0)
+    for img in images:
+        print("image number: ", img_id)
+        img_path = os.path.join(image_path, img)
+        image = cv2.imread(img_path)
+        #cv2.imshow("image", image)
+        d_imgpath = os.path.join(str.encode(image_path), str.encode(img))
+        res = darknet.detect(net, meta, d_imgpath)
+        for r in res:
+            if r:
+                name = r[0].decode('utf-8')
+                if name == class_label:
+                    bb = r[2]
+                    print("class label: ", name)
+                    print("bounding box: ", bb)
+                    x = r[2][0]
+                    y = r[2][1]
+                    w = r[2][2]
+                    h = r[2][3]
+                    x_max = int(round((2*x+w)/2))
+                    x_min = int(round((2*x-w)/2))
+                    y_max = int(round((2*y-h)/2))
+                    y_min = int(round((2*y+h)/2))
+                    cv2.rectangle(image, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+                    #cv2.imshow("image", image)
+                    cv2.imwrite(os.path.join(target_path, 'image' + str(img_id) + '.jpg'), image)
+                    f.write('image' + str(img_id) + '\n')
+        img_id += 1
+        #cv2.waitKey(0)
 cv2.destroyAllWindows()
-
-
 
 
 
