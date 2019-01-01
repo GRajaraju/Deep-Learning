@@ -318,7 +318,31 @@ plt.show()
 
 #
 #
-#
+#import pika
+
+# json path
+metadata = '/path/metadata.json'
+
+with open(metadata, 'r') as qfile:
+	msg = qfile.read()
+
+#credentials to connect to RabbitMQ
+credentials = pika.PlainCredentials('admin', 'password')
+
+#connection parameters 
+parameters = pika.ConnectionParameters(host = 'ip addr', port = port, virtual_host = '/', credentials = credentials)
+
+print('connecting to msg queue server...')
+connection = pika.BlockingConnection(parameters)
+print('connection established.')
+channel = connection.channel()
+channel.exchange_declare(exchange='exchange_name', exchange_type='direct')
+channel.queue_declare(queue = 'queue_name', durable = True)
+channel.queue_bind(exchange ='exchange_name', queue = 'queue_name', routing_key = 'queue_name')
+print('sending message to rabbit mq...')
+channel.basic_publish(exchange = 'exchange_name', routing_key = 'queue_name', body = msg)
+print('message sent.')
+connection.close()
 
 
 
