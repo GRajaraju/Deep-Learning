@@ -40,10 +40,10 @@ class SimpleNeuralNet(nn.Module):
 # create the model object
 model = SimpleNeuralNet(input_size, hidden_size, output_size)
 
-# define the loss function
+# loss function
 criterion = nn.MSELoss()
 
-# define the optimizer
+# optimizer
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 
 #training the model over specified epochs
