@@ -344,6 +344,82 @@ channel.basic_publish(exchange = 'exchange_name', routing_key = 'queue_name', bo
 print('message sent.')
 connection.close()
 
+#########################
 
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+img = cv2.imread('/home/user/Pictures/cropped.png')
+img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+print('Original image shape: ', img.shape)
+height, width = 300, 300
+img = cv2.resize(img,(height, width))
+print('Resized image shape: ', img.shape)
+kernel = np.array([[-1,0,1],[-1,0,1],[-1,0,1]])
+# kernel = np.array([[-1,-1,-1],[0,0,0],[1,1,1]])
+print('Kernel Shape: ', kernel.shape)
+
+def conv(img, kernel):
+    temp_list = []
+    img_row, img_col = img.shape
+    kernel_row, kernel_col = kernel.shape
+    for k in range(img_row - 3):
+        for l in range(img_col - 3):
+            temp = 0
+            for i in range(kernel_row):
+                for j in range(kernel_col):
+                    temp = temp + (img[i+k][j+l] * kernel[i][j])
+            temp_list.append(temp)
+    return temp_list
+
+temp_list = conv(img, kernel)
+img_size = int(np.sqrt(len(temp_list)))
+print('Convolved image shape: {}x{}'.format(img_size, img_size))
+temp_list = np.array(temp_list).reshape(img_size, img_size)
+plt.imshow(img, cmap='gray')
+plt.show()
+plt.imshow(temp_list, cmap='gray')
+plt.show()
+
+#############################################
+
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+
+
+img = Image.open('/home/raj/Downloads/ppl4.jpg')
+img = img.resize((300, 300))
+img = np.array(img)
+img = np.mean(img, axis=2)
+temp_list = []
+
+def maxpool(img):
+    img_row, img_col = img.shape
+    for i in range(0, img_row - 2, 2):
+        for j in range(0, img_col - 2, 2):
+            temp = []
+            for k in range(2):
+                for l in range(2):
+                    temp.append(img[k+i][l+j])
+            temp_list.append(sorted(temp)[-1])
+
+    return temp_list
+
+maxpooled = maxpool(img)
+maxpooled = np.array(maxpooled)
+print('length of maxpooled:', len(maxpooled))
+img_size = int(np.sqrt(len(maxpooled)))
+print('Original image size: ', img.shape)
+print('new size: {}x{}'.format(img_size, img_size))
+print(maxpooled.shape)
+
+plt.imshow(img, cmap='gray')
+plt.show()
+plt.imshow(maxpooled.reshape(img_size, img_size), cmap='gray')
+plt.show()
+
+###############################
 
 
