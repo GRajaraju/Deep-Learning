@@ -1,3 +1,6 @@
+# a simple vanilla RNN to train on a sequential data
+# picked stock data from yahoo finance
+
 # import the requried libraries
 import torch
 import torch.nn as nn
@@ -7,7 +10,7 @@ import matplotlib.pyplot as plt
 
 
 # import the data
-stock_raw_data = pd.read_csv('/home/raj/Downloads/GOOG.csv')
+stock_raw_data = pd.read_csv('/path/to/your/data.csv')
 data = stock_raw_data.iloc[:, 1:2].values
 data = (data - np.min(data)) / (np.max(data) - np.min(data))
 x = data[:-1]
