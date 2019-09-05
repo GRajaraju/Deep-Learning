@@ -7,7 +7,7 @@ classes = {0:"person", 1:"thing",  2:"backpack", 3:"umbrella", 4:"handbag", 5:"s
            14:"toilet", 15:"tvmonitor", 16:"laptop", 17:"remote", 18:"cellphone", 19:"sink", 20:"book",21:"clock", 22:"vase", 23:"patient", 24:"provider"}
 
 
-file_path = "/home/user/Development/yolo/darknet/data/coco/labels/train"
+file_path = "file/path"
 files = os.listdir(file_path)
 
 class_list = []
